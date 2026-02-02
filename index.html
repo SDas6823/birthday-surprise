@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #0b3c8a;
+  overflow-x: hidden;
+}
+
+.hidden { display: none; }
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.btn-primary { background: #0b3c8a; color: white; }
+.btn-yes { background: #28a745; color: white; }
+
+/* FLOATING NO */
+#noBtn {
+  background: #dc3545;
+  color: white;
+  position: absolute;
+}
+
+/* PAGE 3 */
+.page3 {
+  background: white;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+/* PROGRAM CARDS */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.small-card {
+  background: #f5f5f5;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.lock::after {
+  content: "🔒";
+  font-size: 24px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* SLIDER */
+.slider {
+  max-width: 300px;
+  margin: 20px auto;
+  position: relative;
+}
+
+.slider img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.slider button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.6);
+  color: white;
+}
+
+.prev { left: 0; }
+.next { right: 0; }
+
+/* FIREWORKS */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+/* existing styles above */
+
+/* 💌 FINAL LOVE LETTER POPUP */
+#loveLetter {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.letter-box {
+  background: #fff;
+  max-width: 480px;
+  width: 90%;
+  padding: 35px;
+  border-radius: 18px;
+  text-align: left;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  animation: letterFade 1.2s ease;
+}
+
+.letter-box h2 {
+  text-align: center;
+  color: #e63946;
+  margin-bottom: 20px;
+}
+
+.letter-box p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.letter-sign {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 25px;
+  color: #0b3c8a;
+}
+
+.close-letter {
+  display: block;
+  margin: 25px auto 0;
+  background: #e63946;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 25px;
+  font-size: 15px;
+}
+
+@keyframes letterFade {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+/* 💕 FLOATING HEARTS */
+.heart {
+  position: fixed;
+  bottom: -20px;
+  font-size: 20px;
+  animation: floatUp 6s linear infinite;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-110vh) scale(1.5);
+    opacity: 0;
+  }
+}
+/* ✍️ TYPEWRITER EFFECT */
+.typewriter span {
+  border-right: 2px solid #e63946;
+  padding-right: 3px;
+  animation: blink 1s infinite;
+}
+@keyframes blink { 50% { border-color: transparent; } }
+
+/* 🎉 CONFETTI */
+.confetti {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: hsl(var(--h), 100%, 50%);
+  top: -10px;
+  animation: fall 3s linear forwards;
+  z-index: 9999;
+}
+@keyframes fall {
+  to { transform: translateY(110vh) rotate(360deg); }
+}
+
+/* 🌙 FINAL FOREVER SCREEN */
+#finalScreen {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(#020024, #090979, #0b3c8a);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  text-align: center;
+  z-index: 99999;
+  animation: fadeIn 2s ease;
+  cursor: url('images/heart-cursor.png') 16 16, auto; /* 💖 small heart cursor */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 📸 POLAROID CARDS */
+.polaroids {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 40px;
+}
+.polaroid {
+  background: white;
+  padding: 10px;
+  width: 140px;
+  transform: rotate(var(--r));
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+.polaroid img {
+  width: 100%;
+}
+.polaroid p {
+  font-family: cursive;
+  text-align: center;
+  margin: 5px 0 0;
+}
+/* 💔 HEARTBREAK EFFECT */
+.heartbreak {
+  animation: shake 0.4s ease-in-out 3;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-6px); }
+  100% { transform: translateX(0); }
+}
+
+#heartbreakMsg {
+  font-size: 18px;
+  color: #e63946;
+  margin-top: 15px;
+  animation: fadeIn 1s ease;
+}
+
+
+</style>
+</head>
+<body>
+
+<audio id="bgMusic" src="music/favsong.mp3" loop></audio>
+<canvas id="fireworks"></canvas>
+
+<!-- 🔐 PASSWORD SCREEN -->
+<div class="center" id="passwordScreen">
+  <div class="card">
+    <h2>🔐 Private Entry</h2>
+    <p>Only special people know this 💖</p>
+    <input type="password" id="password" placeholder="Enter password">
+    <button class="btn-primary" onclick="checkPassword()">Unlock ❤️</button>
+    <p id="passMsg" style="color:red;margin-top:10px;"></p>
+    <p id="heartbreakMsg" class="hidden">💔 💔 It hurts… but I’ll wait for you🥹.</p>
+  </div>
+</div>
+
+<!-- FORM 1 -->
+<div class="center hidden" id="form1">
+  <div class="card">
+    <h2>QUESTION 1</h2>
+    <p>Your Name</p>
+    <input id="name" placeholder="Fill in the box">
+    <button class="btn-primary" onclick="goForm2()">NEXT</button>
+  </div>
+</div>
+
+<!-- FORM 2 -->
+<div class="center hidden" id="form2">
+  <div class="card" style="position:relative;">
+    <h2>QUESTION 2</h2>
+    <p>Will you be my Valentine?</p>
+
+    <button class="btn-yes" onclick="yesClicked()">YES</button>
+    <button id="noBtn">NO</button>
+
+    <p id="valMsg" style="color:#c00;margin-top:20px;"></p>
+  </div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page3 hidden" id="page3">
+  <h2>I can see the bigggg smile 😁</h2>
+  <p>Scroll down ⬇️</p>
+
+  <div style="margin-top:300px;">
+    <h1>🎉 Happy Birthday Baccha 🎉</h1>
+
+    <!-- SLIDER -->
+    <div class="slider">
+      <img id="slide" src="photos/photo1.jpg">
+      <button class="prev" onclick="prev()">◀</button>
+      <button class="next" onclick="next()">▶</button>
+    </div>
+    <!-- ADD BUTTON HERE 👇 -->
+    <button class="btn-primary" onclick="openLetter()" style="margin-top:25px;">
+      💌 One Last Surprise
+    </button>
+    <!-- 📸 POLAROID MEMORIES -->
+    <div class="polaroids">
+      <div class="polaroid" style="--r:-6deg">
+        <img src="photos/photo1.jpg">
+        <p>💖</p>
+      </div>
+      <div class="polaroid" style="--r:4deg">
+        <img src="photos/photo2.jpg">
+        <p>🫶</p>
+      </div>
+      <div class="polaroid" style="--r:-3deg">
+        <img src="photos/photo3.jpg">
+        <p>✨</p>
+      </div>
+            <div class="polaroid" style="--r:-3deg">
+        <img src="photos/photo4.jpg">
+        <p>💋</p>
+      </div>
+    </div>
+
+    <!-- PROGRAM -->
+    <h2>Today's Program 💖</h2>
+    <div class="cards">
+      <div class="small-card lock" onclick="unlock(this,'🙏 We are going to Temple together')">🙏 Temple Visit</div>
+      <div class="small-card lock" onclick="unlock(this,'👑 Today you are my Prince')">👑 Prince Treatment</div>
+      <div class="small-card lock" onclick="unlock(this,'🍽️ Dinner date at 7 PM')">🍽️ Dinner</div>
+      <div class="small-card lock" onclick="unlock(this,'💃 Dance only with me tonight')">💃 Dance with me</div>
+    </div>
+
+    <div class="small-card" style="margin-top:20px;">🎶 Favorite Songs Playlist</div>
+  </div>
+</div>
+<!-- 💌 FINAL LOVE LETTER -->
+<div id="loveLetter" class="hidden">
+  <div class="letter-box">
+    <h2>My Baccha ❤️</h2>
+
+    <p class="typewriter" data-text="From the very first day you came into my life, you changed everything without even trying. You became my favorite thought, my calm in chaos, and the reason behind my biggest smiles."></p>
+    <p class="typewriter" data-text="You are not just my love; you are my best friend, my confidant, and my greatest adventure. Every moment with you is a treasure I hold close to my heart."></p>
+
+    <p>
+      Today is your birthday, but for me, every single day with you feels like
+      a celebration. Your laughter heals me, your presence comforts me, and
+      your love makes my world feel complete.
+    </p>
+
+    <p>
+      I promise to stand beside you — in happiness, in silence, in madness,
+      and in every storm life throws at us. No matter where life takes us,
+      I choose you… always.
+    </p>
+
+    <p class="letter-sign">
+      Happy Birthday, my love 🎂💖<br>
+      Yours forever ❤️
+    </p>
+
+    <button class="close-letter" onclick="closeLetter()">Close 💋</button>
+  </div>
+</div>
+
+<script>
+/* PASSWORD */
+function checkPassword(){
+  if(password.value === "6823"){
+    passwordScreen.classList.add("hidden");
+    form1.classList.remove("hidden");
+  } else {
+    passMsg.innerText = "Wrong password 😢";
+    
+    passwordScreen.classList.add("heartbreak");
+    heartbreakMsg.classList.remove("hidden");
+
+    setTimeout(() => {
+      passwordScreen.classList.remove("heartbreak");
+      heartbreakMsg.classList.add("hidden");
+      passMsg.innerText = "";
+      password.value = "";
+    }, 2500);
+  }
+}
+
+/* FORM FLOW */
+function goForm2(){
+  if(!name.value.trim()) return alert("Enter your name ❤️");
+  form1.classList.add("hidden");
+  form2.classList.remove("hidden");
+
+  setTimeout(()=>{
+    valMsg.innerText="Oops 😜 NO is shy… only YES works!";
+  },5000);
+}
+
+/* FLOATING NO */
+noBtn.addEventListener("mouseover", ()=>{
+  noBtn.style.left = Math.random()*200 + "px";
+  noBtn.style.top  = Math.random()*100 + "px";
+});
+
+/* YES */
+function yesClicked(){
+  bgMusic.play();
+  form2.classList.add("hidden");
+  page3.classList.remove("hidden");
+  startFireworks();
+  startHearts();
+}
+
+/* SLIDER */
+const photos = [
+  "photos/photo1.jpg",
+  "photos/photo2.jpg",
+  "photos/photo3.jpg",
+  "photos/photo4.jpg"
+];
+let index = 0;
+function next(){ index=(index+1)%photos.length; slide.src=photos[index]; }
+function prev(){ index=(index-1+photos.length)%photos.length; slide.src=photos[index]; }
+
+/* UNLOCK PROGRAM */
+function unlock(card,msg){
+  card.classList.remove("lock");
+  alert(msg);
+}
+
+/* FIREWORKS */
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+function startFireworks(){
+  setInterval(()=>{
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    for(let i=0;i<120;i++){
+      ctx.beginPath();
+      ctx.arc(Math.random()*canvas.width,Math.random()*canvas.height,2,0,Math.PI*2);
+      ctx.fillStyle=`hsl(${Math.random()*360},100%,50%)`;
+      ctx.fill();
+    }
+  },300);
+}
+/* 💌 LOVE LETTER CONTROL */
+function openLetter(){
+  document.getElementById("loveLetter").classList.remove("hidden");
+  paperSound.play();
+  confettiBurst();
+  startTyping();
+}
+function closeLetter(){
+  document.getElementById("loveLetter").classList.add("hidden");
+  setTimeout(showFinalScreen, 800);
+}
+
+/* 💕 FLOATING HEARTS */
+function startHearts(){
+  setInterval(()=>{
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = ["❤️","💖","💕","💘","💗"][Math.floor(Math.random()*5)];
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.fontSize = (16 + Math.random()*20) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(()=>heart.remove(),6000);
+  }, 500);
+}
+
+/* ✍️ TYPEWRITER */
+function startTyping() {
+  document.querySelectorAll(".typewriter").forEach(el => {
+    const text = el.dataset.text;
+    let i = 0;
+    const span = document.createElement("span");
+    el.appendChild(span);
+    const interval = setInterval(() => {
+      span.textContent += text[i];
+      i++;
+      if (i >= text.length) clearInterval(interval);
+    }, 40);
+  });
+}
+
+/* 🎉 CONFETTI */
+function confettiBurst() {
+  for (let i = 0; i < 80; i++) {
+    const c = document.createElement("div");
+    c.className = "confetti";
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.setProperty("--h", Math.random() * 360);
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 3000);
+  }
+}
+
+/* 💕 HEART CLICK SECRET */
+let heartClicks = 0;
+document.body.addEventListener("click", e => {
+  if (e.target.classList.contains("heart")) {
+    heartClicks++;
+    if (heartClicks === 5) {
+      alert("I love you more than you know ❤️");
+      heartClicks = 0;
+    }
+  }
+});
+
+/* 🌙 FINAL SCREEN */
+function showFinalScreen() {
+  const fs = document.createElement("div");
+  fs.id = "finalScreen";
+  fs.innerHTML = `
+    <div>
+      <p>This page ends…</p>
+      <p><strong>but my love for you doesn’t.</strong></p>
+      <br>
+      <p>🌙 You’re My Forever 🌙</p>
+    </div>`;
+  document.body.appendChild(fs);
+}
+
+/* 🔊 SOUNDS */
+const popSound = new Audio("sounds/pop.mp3");
+const paperSound = new Audio("sounds/paper.mp3");
+
+
+</script>
+
+</body>
+</html>
